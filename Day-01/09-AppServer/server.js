@@ -1,6 +1,7 @@
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+//calculator?operation=add&n1=100&n2=300
 
 var server = http.createServer(function(req, res){
     var resourcePath = path.join(__dirname, req.url);
