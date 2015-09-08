@@ -1,6 +1,6 @@
 var _middlewares = [];
 
-function app = {};
+var app = {};
 
 app.use = function(middleware){
     _middlewares.push(middleware);
