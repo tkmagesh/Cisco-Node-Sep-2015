@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
     next();
 });*/
 app.use(cookieParser());
-app.use(session);
+app.use(session(300000));
 app.use(function(req,res,next){
     if (!req.session.reqCount) req.session.reqCount = 0;
     console.log("Requent Count = ", ++req.session.reqCount);
