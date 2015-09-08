@@ -2,7 +2,7 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var url = require('url');
-var calculator = require('./calculator');
+var calculator = require('./calculator')();
 var qs = require('querystring');
 
 //calculator?operation=add&n1=100&n2=300
@@ -24,11 +24,12 @@ var server = http.createServer(function(req, res){
             res.end();
         }
     } else if (req.url.pathname === '/calculator' && req.method === 'GET'){
+
         var operation = req.url.query.operation,
-            n1 = parseInt(req.url.query.n1, 10),
-            n2 = parseInt(req.url.query.n2, 10);
-        var result = calculator[operation](n1,n2);
-        res.write(result.toString());
+            n = parseInt(req.url.query.n, 10);
+        console.log(operation, n, calculator);
+        calculator[operation](n);
+        res.write(calculator.getResult().toString());
         res.end();
     } else if (req.url.pathname === '/calculator' && req.method === 'POST'){
         var reqData = '';
@@ -38,10 +39,9 @@ var server = http.createServer(function(req, res){
         req.on('end', function(){
             var data = qs.parse(reqData);
             var operation = data.operation,
-                n1 = parseInt(data.n1, 10),
-                n2 = parseInt(data.n2, 10);
-            var result = calculator[operation](n1,n2);
-            res.write(result.toString());
+                n1 = parseInt(data.n, 10);
+            calculator[operation](n);
+            res.write(calculator.getResult().toString());
             res.end();
         });
     } else {
