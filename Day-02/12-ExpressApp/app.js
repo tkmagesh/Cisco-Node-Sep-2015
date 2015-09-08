@@ -4,12 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('./middlewares/session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var bugRoutes = require('./routes/bugRoutes');
 
-var reqCount = 0;
+
 
 var app = express();
 
@@ -20,10 +21,6 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(function(req,res,next){
-    console.log("Requent Count = ", ++reqCount);
-    next();
-});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 /*app.use(function(req,res,next){
@@ -31,6 +28,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
     next();
 });*/
 app.use(cookieParser());
+app.use(session);
+app.use(function(req,res,next){
+    if (!req.session.reqCount) req.session.reqCount = 0;
+    console.log("Requent Count = ", ++req.session.reqCount);
+    next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
