@@ -1,0 +1,22 @@
+<style>
+    .closed {
+        color : red;
+        text-decoration: line-through;
+        font-style: italic;
+        font-weight: bold;
+    }
+</style>
+<h1>Bugs</h1>
+<ol>
+    {{#each list}}
+      <li>
+       {{#if isClosed}}
+        <span class="closed">{{name}}</span>
+       {{else}}
+         <span>{{name}}</span>
+       {{/if}}
+        <a href="/bugs/toggle/{{id}}">X</a>
+      </li>
+    {{/each}}
+</ol>
+<a href="/bugs/new">Create</a>
